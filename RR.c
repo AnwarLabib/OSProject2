@@ -1,6 +1,8 @@
 #include<stdio.h> 
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
 
 static const struct Process EmptyStruct;
 
@@ -20,7 +22,7 @@ struct Process procs[0];
 
 int n;
 float size;
-char path[] = "Input2.in";
+char path[] = "Input1.in";
 
 int main(){
 
@@ -99,12 +101,16 @@ while(n>0){
     }
     if(newCPU>0){
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
+        fflush(stdout);
+        sleep(quantamLength/1000);
         time = time+ quantamLength;
         p.cpuBurst = newCPU;
         procs[n] = p;
         n++;
     }else{
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
+        fflush(stdout);
+        sleep(quantamLength/1000);
         time = time+p.cpuBurst;
         p.endTime = time;
         int turnAround = p.endTime-p.arrivalTime;
