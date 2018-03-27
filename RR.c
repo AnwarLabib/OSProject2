@@ -110,7 +110,7 @@ while(n>0){
     }else{
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
         fflush(stdout);
-        sleep(quantamLength/1000);
+        sleep(p.cpuBurst/1000);
         time = time+p.cpuBurst;
         p.endTime = time;
         int turnAround = p.endTime-p.arrivalTime;
