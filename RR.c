@@ -1,4 +1,4 @@
-#include<stdio.h> 
+#include<stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -57,7 +57,7 @@ if (fp)
         } else if(i==1){
             numberOfTickets = atoi(line);
         } else{
-            
+
             char * pch;
             pch = strtok (line,",");
             int j=0;
@@ -65,14 +65,14 @@ if (fp)
             while (pch != NULL)
             {
                 if(j==0){
-                    procs[a].processId = atoi(pch);                                        
+                    procs[a].processId = atoi(pch);
                 } else if(j==1){
-                    procs[a].arrivalTime = atoi(pch);                    
+                    procs[a].arrivalTime = atoi(pch);
                 } else if(j==2){
-                    procs[a].cpuBurst = atoi(pch);   
-                    procs[a].staticCpuBurst = atoi(pch);                 
+                    procs[a].cpuBurst = atoi(pch);
+                    procs[a].staticCpuBurst = atoi(pch);
                 } else if(j==3){
-                    procs[a].numberOfTickets = atoi(pch);                    
+                    procs[a].numberOfTickets = atoi(pch);
                 }
                 procs[a].startTime = -1;
                 procs[a].endTime =-1;
@@ -156,8 +156,5 @@ void printProcsArray(struct Process procs[],int size){
         printf("CPU Burst Time: %i ",procs[i].cpuBurst);
         printf("Number of tickets: %i\n",procs[i].numberOfTickets);
     }
-    
+
 }
-
-
-
