@@ -110,7 +110,7 @@ while(n>0){
     }else{
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
         fflush(stdout);
-        sleep(quantamLength/1000);
+        sleep(quantamLength/1000); //is this correct? msh el mafrood msh el quatum time kolo?
         time = time+p.cpuBurst;
         p.endTime = time;
         int turnAround = p.endTime-p.arrivalTime;

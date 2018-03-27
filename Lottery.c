@@ -82,9 +82,9 @@ int main(){
                       procs[a].ticketMinRange = currentTicketRange + 1;
                       currentTicketRange = currentTicketRange +   procs[a].numberOfTickets;
                       procs[a].ticketMaxRange = currentTicketRange;
-                      printf("Min range: %d\n", procs[a].ticketMinRange);
-                      printf("Max range: %d\n", procs[a].ticketMaxRange);
-                      printf("---------\n");
+                      // printf("Min range: %d\n", procs[a].ticketMinRange);
+                      // printf("Max range: %d\n", procs[a].ticketMaxRange);
+                      // printf("---------\n");
                   }
                   procs[a].startTime = -1;
                   procs[a].endTime =-1;
@@ -154,20 +154,36 @@ int main(){
              //awel matla2iha, na2as el cpu burst beta3ha (bel quantum)
              //then na2as el total cpu burst beta3 kolo (bel quantum)
              //break the loop
-             procs[x].cpuBurst =   procs[x].cpuBurst - quantamLength;
-             totalCPUburtTime = totalCPUburtTime - quantamLength;
-             //procs[x].ticketMaxRange =  procs[x].ticketMaxRange - 1;   //uncomment law 3ayz, taree2a msh efficient 5ales bas shaghala
 
-             printf("Time %i: P%i Entering quantum\n",time,procs[x].processId);
-             fflush(stdout);
-             sleep(quantamLength/1000);
-             time = time+ quantamLength;
 
 
              //check if it is end time
-             if(procs[x].cpuBurst <= 0){ //ma3naha 5elset
-               printf("P%i ended at %i\n", procs[x].processId, time);
+             if(procs[x].cpuBurst - quantamLength <= 0){ //ma3naha hate5las dlwa2ty!, a5r marra liha ya3ini
+
+
+               //3akst order kol 7aga 3shan ashtghl abl ma el cpu burst tob2a zero
+               printf("Time %i: P%i Entering quantum\n",time,procs[x].processId);
+               fflush(stdout);
+               time = time+ procs[x].cpuBurst; //lazm tkoon hena 3shan tet3ml abl maykoon zero
+               totalCPUburtTime = totalCPUburtTime - procs[x].cpuBurst;
+               sleep(procs[x].cpuBurst/1000);
+
+               procs[x].cpuBurst =   procs[x].cpuBurst - procs[x].cpuBurst;  //aw = 0, lol
+
+
+               //printf("P%i ended at %i\n", procs[x].processId, time);
                procs[x].endTime = time;
+
+             }else  //ma3naha lssa hya hata5od 3adi el quantam kolaha
+             {
+               procs[x].cpuBurst =   procs[x].cpuBurst - quantamLength;
+               totalCPUburtTime = totalCPUburtTime - quantamLength;
+               //procs[x].ticketMaxRange =  procs[x].ticketMaxRange - 1;   //uncomment law 3ayz, taree2a msh efficient 5ales bas shaghala
+
+               printf("Time %i: P%i Entering quantum\n",time,procs[x].processId);
+               fflush(stdout);
+               sleep(quantamLength/1000);
+               time = time+ quantamLength;
              }
 
              //printf("Process CPU burst: %d\n", procs[x].cpuBurst);
