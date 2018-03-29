@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <sys/time.h>
 
 static const struct Process EmptyStruct;
 
@@ -16,6 +16,7 @@ struct Process {
    int   numberOfTickets;
 };
 
+void sleepReal(int timeM);
 void printProcsArray(struct Process procs[],int size);
 struct Process removeFirst(struct Process procs[],int size);
 struct Process procs[0];
@@ -102,7 +103,8 @@ while(n>0){
     if(newCPU>0){
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
         fflush(stdout);
-        sleep(quantamLength/1000);
+        //sleep(quantamLength/1000);
+        sleepReal(quantamLength);
         time = time+ quantamLength;
         p.cpuBurst = newCPU;
         procs[n] = p;
@@ -110,7 +112,8 @@ while(n>0){
     }else{
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
         fflush(stdout);
-        sleep(p.cpuBurst/1000);
+        //sleep(p.cpuBurst/1000)
+        sleepReal(p.cpuBurst);
         time = time+p.cpuBurst;
         p.endTime = time;
         int turnAround = p.endTime-p.arrivalTime;
@@ -157,4 +160,15 @@ void printProcsArray(struct Process procs[],int size){
         printf("Number of tickets: %i\n",procs[i].numberOfTickets);
     }
 
+}
+void sleepReal(int timeM){ //time is in milliseconds
+  struct timespec start, end;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+
+  int x = 0;
+  while (x != timeM) {  //2000, wait 2 seconds
+  clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    uint64_t delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
+    x = delta_us;
+  }
 }

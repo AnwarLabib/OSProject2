@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 static const struct Process EmptyStruct;
 
@@ -17,6 +18,8 @@ struct Process {
    int ticketMaxRange; //di el max range lma ha generate random number
    //then haykoon fih if random number between el two ranges beta3 el process di, w kman quantum time beta3ha ma5lsh
 };
+
+void sleepReal(int timeM);
 
 struct Process procs[0];
 
@@ -166,8 +169,8 @@ int main(){
                fflush(stdout);
                time = time+ procs[x].cpuBurst; //lazm tkoon hena 3shan tet3ml abl maykoon zero
                totalCPUburtTime = totalCPUburtTime - procs[x].cpuBurst;
-               sleep(procs[x].cpuBurst/1000);
-
+               //sleep(procs[x].cpuBurst/1000);
+               sleepReal(procs[x].cpuBurst);
                procs[x].cpuBurst =   procs[x].cpuBurst - procs[x].cpuBurst;  //aw = 0, lol
 
 
@@ -182,7 +185,8 @@ int main(){
 
                printf("Time %i: P%i Entering quantum\n",time,procs[x].processId);
                fflush(stdout);
-               sleep(quantamLength/1000);
+               //sleep(quantamLength/1000);
+               sleepReal(quantamLength);
                time = time+ quantamLength;
              }
 
@@ -206,9 +210,15 @@ int main(){
    printf("Average Turnaround Time= %.2f\n",averageTurnAround/size);
 
 
+}
+void sleepReal(int timeM){ //time is in milliseconds
+  struct timespec start, end;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &start);
 
-
-
-
-
+  int x = 0;
+  while (x != timeM) {  //2000, wait 2 seconds
+  clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    uint64_t delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
+    x = delta_us;
+  }
 }
