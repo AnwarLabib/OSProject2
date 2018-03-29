@@ -19,6 +19,7 @@ struct Process {
    //then haykoon fih if random number between el two ranges beta3 el process di, w kman quantum time beta3ha ma5lsh
 };
 
+
 void sleepReal(int timeM);
 
 struct Process procs[0];
@@ -30,6 +31,14 @@ float size;
 char path[] = "Input1.in";
 
 int main(){
+
+  remove("./Output-LOT.txt");  //remove file to start a new one
+  FILE *f = fopen("./Output-LOT.txt", "a"); //open in append mode
+  if (f == NULL)
+  {
+      printf("Error opening file!\n");
+      exit(1);
+  }
 
 
   //reading from file, and putting data into the array procs
@@ -166,6 +175,9 @@ int main(){
 
                //3akst order kol 7aga 3shan ashtghl abl ma el cpu burst tob2a zero
                printf("Time %i: P%i Entering quantum\n",time,procs[x].processId);
+
+               fprintf(f, "Time %i: P%i Entering quantum\n",time,procs[x].processId); //APPEND TO FILE
+
                fflush(stdout);
                time = time+ procs[x].cpuBurst; //lazm tkoon hena 3shan tet3ml abl maykoon zero
                totalCPUburtTime = totalCPUburtTime - procs[x].cpuBurst;
@@ -184,6 +196,7 @@ int main(){
                //procs[x].ticketMaxRange =  procs[x].ticketMaxRange - 1;   //uncomment law 3ayz, taree2a msh efficient 5ales bas shaghala
 
                printf("Time %i: P%i Entering quantum\n",time,procs[x].processId);
+              fprintf(f, "Time %i: P%i Entering quantum\n",time,procs[x].processId); //APPEND TO FILE
                fflush(stdout);
                //sleep(quantamLength/1000);
                sleepReal(quantamLength);
@@ -206,9 +219,11 @@ int main(){
 
 
    printf("\n");
+    fprintf(f, "\n");
    printf("Average Waiting Time= %.2f\n",averageWaiting/size);
+                 fprintf(f, "Average Waiting Time= %.2f\n",averageWaiting/size); //APPEND TO FILE
    printf("Average Turnaround Time= %.2f\n",averageTurnAround/size);
-
+              fprintf(f, "Average Turnaround Time= %.2f\n",averageTurnAround/size); //APPEND TO FILE
 
 }
 void sleepReal(int timeM){ //time is in milliseconds

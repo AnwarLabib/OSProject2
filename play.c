@@ -18,23 +18,17 @@ void sleepReal(int timeM){ //time is in milliseconds
 }
 
 int main(){
-//   struct timespec start, end;
-// clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-// //do stuff
-//
-// //loop
-// //Le7ad ma el expression eli ta7t da yews lel raam eli ana 3ayzo, example 1000ms
-//
-// int x = 0;
-// while (x != 10000) {  //2000, wait 2 seconds
-// clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-//   uint64_t delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
-//   x = delta_us;
-//   //printf("%d\n", x);
-//   //end loop
-// }
+  remove("./file.txt");
+  FILE *f = fopen("./file.txt", "a"); //open in append mode
+  if (f == NULL)
+  {
+      printf("Error opening file!\n");
+      exit(1);
+  }
+  const char *text = "Write this to the file";
+  fprintf(f, "Some tex2t: %s\n", text);
 
-sleepReal(6000);
+sleepReal(1000);
 
 
 }

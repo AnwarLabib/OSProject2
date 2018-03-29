@@ -27,6 +27,16 @@ char path[] = "Input1.in";
 
 int main(){
 
+  remove("./Output-RR.txt");  //remove file to start a new one
+  FILE *f = fopen("./Output-RR.txt", "a"); //open in append mode
+  if (f == NULL)
+  {
+      printf("Error opening file!\n");
+      exit(1);
+  }
+
+
+
 FILE * fp;
 char * line = NULL;
 size_t len = 0;
@@ -102,6 +112,7 @@ while(n>0){
     }
     if(newCPU>0){
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
+                  fprintf(f,"Time %i: P%i Entering quantum\n",time,p.processId);
         fflush(stdout);
         //sleep(quantamLength/1000);
         sleepReal(quantamLength);
@@ -111,6 +122,7 @@ while(n>0){
         n++;
     }else{
         printf("Time %i: P%i Entering quantum\n",time,p.processId);
+          fprintf(f,"Time %i: P%i Entering quantum\n",time,p.processId);
         fflush(stdout);
         //sleep(p.cpuBurst/1000)
         sleepReal(p.cpuBurst);
@@ -121,13 +133,19 @@ while(n>0){
         averageTurnAround+=turnAround;
         averageWaiting+=waitingTime;
         printf("Time %i: P%i Done Turn around:%i Waiting time: %i\n",time,p.processId,turnAround,waitingTime);
+
+         fprintf(f, "Time %i: P%i Done Turn around:%i Waiting time: %i\n",time,p.processId,turnAround,waitingTime);
         p.cpuBurst = 0;
     }
     i++;
 }
+
 printf("\n");
+ fprintf(f, "\n");
 printf("Average Waiting Time= %.2f\n",averageWaiting/size);
+              fprintf(f, "Average Waiting Time= %.2f\n",averageWaiting/size); //APPEND TO FILE
 printf("Average Turnaround Time= %.2f\n",averageTurnAround/size);
+           fprintf(f, "Average Turnaround Time= %.2f\n",averageTurnAround/size); //APPEND TO FILE
 
 }
 
